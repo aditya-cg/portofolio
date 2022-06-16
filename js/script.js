@@ -37,6 +37,39 @@ function windowScroll(e) {
     }
 }
 
+// Script Google Form
+const form = document.forms['submit-to-google-sheet'];
+
+form.addEventListener('submit', e => {
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwG0dXTamjwmzrOezlnx25DFzkx1yRFg7NWZLXrZMHc9ENDLvn1KmYfKv5j61AX9cwn/exec';
+    const btnSend = document.querySelector(".btn-send");
+    const btnLoading = document.querySelector(".btn-loading");
+    const myAlert = document.querySelector(".my-alert");
+
+    e.preventDefault();
+
+    // ketika tombol submit diklik
+    // tampilkan tombol loading, hilangkan tombol kirim
+    btnLoading.classList.toggle("d-none");
+    btnSend.classList.toggle("d-none");
+
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => {
+            // ketika tombol submit diklik
+            // tampilkan tombol loading, hilangkan tombol kirim
+            btnLoading.classList.toggle("d-none");
+            btnSend.classList.toggle("d-none");
+
+            // tampilkan alert sukses
+            myAlert.classList.toggle("d-none");
+
+            form.reset();
+
+            console.log('Success!', response);
+        })
+        .catch(error => console.error('Error!', error.message));
+});
+
 // Script mengganti tema
 const btnChangeTheme = document.querySelector(".btnChangeTheme");
 const btnChangeThemeI = document.querySelector(".btnChangeTheme i");
